@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upload
+  namespace: wedding
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upload
+  template:
+    metadata:
+      labels:
+        app: upload
+    spec:
+      containers:
+        - name: upload
+          image: your-upload-image:latest
+          ports:
+            - containerPort: 4000
+          volumeMounts:
+            - name: uploads
+              mountPath: /usr/src/app/uploads
+      volumes:
+        - name: uploads
+          emptyDir: {}

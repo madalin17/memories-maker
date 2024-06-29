@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: wedding
+data:
+  nginx.conf: |
+    worker_processes 1;
+
+    events { worker_connections 1024; }
+
+    http {
+        upstream frontend {
+            server frontend:3000;
+        }
+
+        upstream upload {
+            server upload:4000;
+        }
+
+        upstream photos {
+            server photo-retrieval:5000;
+        }
+
+        server {
+            listen 80;
+
+            location / {
+                proxy_pass http://frontend;
+            }
+
+            location /upload {
+                proxy_pass http://upload;
+            }
+
+            location /photos {
+                proxy_pass http://photos;
+            }
+        }
+    }

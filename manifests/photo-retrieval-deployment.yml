@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo-retrieval
+  namespace: wedding
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photo-retrieval
+  template:
+    metadata:
+      labels:
+        app: photo-retrieval
+    spec:
+      containers:
+        - name: photo-retrieval
+          image: your-photo-retrieval-image:latest
+          ports:
+            - containerPort: 5000

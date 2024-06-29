@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Slideshow</title>
+    <style>
+        #slideshow img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="slideshow"></div>
+    <script>
+        const slideshow = document.getElementById('slideshow');
+
+        function fetchPhotos() {
+            fetch('http://localhost/photos')
+                .then(response => response.json())
+                .then(data => {
+                    slideshow.innerHTML = '';
+                    data.photos.forEach(photo => {
+                        const img = document.createElement('img');
+                        img.src = `/uploads/${photo.filename}`;
+                        slideshow.appendChild(img);
+                    });
+                });
+        }
+
+        setInterval(fetchPhotos, 5000);
+    </script>
+</body>
+</html>
